@@ -11,7 +11,8 @@
 //? 1) sync : blocking code
 //? 2) async  (callbacks, then/catch, async/await) : non-blocking code
 
-import fs, { mkdirSync, renameSync, rmdirSync } from "fs";
+import { log } from "console";
+import fs, { createReadStream, createWriteStream, mkdirSync, renameSync, rmdirSync } from "fs";
 
 // console.log(fs);
 
@@ -150,5 +151,242 @@ import fs, { mkdirSync, renameSync, rmdirSync } from "fs";
 
 // console.log("backend dir deleted");
 
-//!fs.rmdirSync("./demo", {recursive: true}) // to delete all the files and folders recursively
+//* fs.rmdirSync("./demo", {recursive: true}) // to delete all the files and folders recursively
+
+
+
+//! ==================asynchronous execution using fs (callbacks) =================================
+
+//! 1) Creating a file
+//? method name ==> writeFile()
+//* syntax --> writeFile("path/name of the file.txt"."data", callback)
+
+//? error first callback --> in NodeJS, inside  callback functions , the first parameter is mostly reserved for error, this is called as error first callback
+
+// console.log(1);
+
+// fs.writeFile("./demo.py", "def", (err)=>{
+//     if(err){
+//         console.log(err);
+//     }
+//     console.log("file created");
+    
+// });
+
+// setTimeout(()=>{
+//     console.log("set timeout");
+    
+// }, 3000);
+// console.log(2);
+// console.log(3);
+
+//! 2) ========== Reading a file ===============
+//? Method name ==> readFile()
+//* syntax ===> fs.readFile("path/name of the file", "encoding", callback)
+
+// console.log(1);
+
+// fs.readFile("./demo.py", "utf-8" , (err, xyz)=>{
+//     if(err) console.log(err);
+//     console.log(xyz);
+    
+// })
+
+// console.log(2);
+// console.log(3);
+
+//! 3) ========== appending a file
+//? Method name ==> appendFile()
+// //* syntax ===> fs.appendFile("path/name of the file", "data", callback)
+
+// console.log(1);
+
+// fs.appendFile("./demo.py", "this is second line" , (err, xyz)=>{
+//     if(err) console.log(err);
+//     console.log(":File Updated");
+    
+// })
+
+// console.log(2);
+// console.log(3);
+
+
+//! 4) ================ deleting a file ================
+
+// ! 5) ================ creating a folder ================
+
+// ! 6) ================ deleting a folder ================
+
+// ! 5) ================ renaming a folder/file ================
+
+
+
+//! ==================asynchronous execution using fs (promise --> then and catch) =======================
+// let fsPromise = require('fs').promises;
+// let fsPromise = require('fs/promises');
+import fsPromise from 'fs/promises';
+
+// //! 1) Create a file
+// //? method name ==> writeFile()
+// //* syntax --> writeFile("path/name of the file.txt"."data").then().catch()
+// console.log(1);
+
+// let writePromise = fsPromise.writeFile('./java,txt', "this is java file");
+// console.log(writePromise);
+
+// writePromise.then(()=>{
+//     console.log("file created");
+    
+//     })
+//     .catch((err)=>{
+//         console.log(err);
+        
+//     })
+
+//     console.log(2);
+//     console.log(3);
+    
+
+
+// //! 2) reading a file
+// //? method name ==> readFile()
+// //* syntax --> readFile("path/name of the file.txt"."data").then().catch()
+// console.log(1);
+
+// let readPromise = fsPromise.readFile('./java,txt', "utf-8");
+// console.log(readPromise);
+
+// readPromise.then((data)=>{
+//     console.log(data);
+    
+//     })
+//     .catch((err)=>{
+//         console.log(err);
+        
+//     })
+
+//     console.log(2);
+//     console.log(3);
+    
+
+
+// //! 3) deleting a file
+// //? method name ==> unlink()
+// //* syntax --> unlink("path/name of the file.txt").then().catch()
+// console.log(1);
+
+// let deletePromise = fsPromise.unlink('./java,txt')
+
+// deletePromise.then(()=>{
+//     console.log('file deleted');
+    
+//     })
+//     .catch((err)=>{
+//         console.log('something went wrong');
+        
+//     })
+
+//     console.log(2);
+//     console.log(3);
+    
+
+// let promise = new Promise((res, rej)=>{
+//     let a = 1;
+
+//     if(a ==1){
+//         res({name:"xyz"})
+//     } else {
+//         rej([1, 2, 3, 4])
+//     }
+// });
+
+// console.log(promise);
+
+// promise.then((a)=>{
+//     console.log(a);
+//     console.log("Promise is resolved");
+    
+// }).catch((err)=>{
+//     console.log("something went wrong");
+    
+// })
+
+//! updating a file, creating a folder, rename a file/folder, deletinga folder
+
+
+//! ================ asynchronous execution using fs (promise --> async and await ) =======================
+
+//? async and await both are keyword which are used together
+//? async is used in function declaration
+//? await is used inside function body (await execution stops)
+//? async function always return a promise
+
+/* async function greet() {
+    return "hello"
+}
+
+let data = greet()
+console.log(data); */
+
+// async function getTodos() {
+//     console.log("first function");
+//     let output = await fetch("https://jsonplaceholder.typicode.com/posts")
+//     console.log("api called 1");
+//     // console.log(output);
+    
+// }
+
+// async function getTodos2() {
+//     console.log('second function');
+//     let output = await fetch('https://jsonplaceholder.typicode.com/posts')
+//     console.log("api called 2");
+//     // console.log(output);
+    
+// }
+// getTodos();
+// getTodos2();
+
+
+//! 1) ======================= creating a file ================
+//? method name ==> writeFile()
+
+// async function createFile() {
+//     await fsPromise.writeFile('./demo1.txt', 'data to be written')
+//     console.log("file created");
+    
+// }
+// createFile();
+
+//! 2) =============== reading a file =====================
+//? method name ==> readFile()
+
+async function readFile() {
+    let readData = await fsPromise.readFile("./demo1.txt",'utf-8')
+    console.log(readData);
+    
+}
+
+readFile();
+
+//! name of the  global object in NodeJS ==> Global {
+//! fs:{readFile:Function}
+//! readFile: Function 
+//! }
+
+//* Ques >> create this structure ==> "Project/backend/app.js" (Outer layer)
+
+// async function createStructure() {
+//     await fsPromise.mkdir('./Project')
+//     await fsPromise.mkdir('./Project/backend')
+//     await fsPromise.writeFile('./Project/backend/app.js', "{data}")
+// }
+// createStructure();
+
+//! deleting a file and folder, remaining a file/folder
+//* createReadStream, createWriteStream
+
+//! Buffers ==> it is an aray like object which holds binary data, which is used to store data in memory (RAM)
+//!  Buffer size cannot be controlled or set. it cannot be modified also throughout the operation
+//! once the operation is done, buffer is destroyed
+
 
