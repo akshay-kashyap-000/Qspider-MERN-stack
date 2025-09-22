@@ -360,13 +360,13 @@ console.log(data); */
 //! 2) =============== reading a file =====================
 //? method name ==> readFile()
 
-async function readFile() {
-    let readData = await fsPromise.readFile("./demo1.txt",'utf-8')
-    console.log(readData);
+// async function readFile() {
+//     let readData = await fsPromise.readFile("./demo1.txt",'utf-8')
+//     console.log(readData);
     
-}
+// }
 
-readFile();
+// readFile();
 
 //! name of the  global object in NodeJS ==> Global {
 //! fs:{readFile:Function}
@@ -388,5 +388,62 @@ readFile();
 //! Buffers ==> it is an aray like object which holds binary data, which is used to store data in memory (RAM)
 //!  Buffer size cannot be controlled or set. it cannot be modified also throughout the operation
 //! once the operation is done, buffer is destroyed
+
+
+//? Streams ==> Streams in nodeJS are used to transfer data from source to destination .
+//! Transferrring the data from source to destination in continuous chunks (or piece of data ) is called as streaming
+
+//! In NodeJS there are total 4-types of streams :
+//? 1) Readable Stream   : It is used to read  the data in continuous chunks
+//* Method name ====> createReadStream()
+
+//? 2) Writable Stream : It is used to write data in continuous chunks
+//* Method name ====> createWriteStream()
+
+//? 3) Duplex Stream : It used to  perform read and write together in continuous chunks.
+//* Method name ====> 
+
+//? 4) Transform Stream : it is similar to duplex,  but data can be modified
+//* Method name ====> 
+
+
+    //! Example for Readable Stream 
+    // let read = fs.createReadStream('./index.html', 'utf-8');
+    // this createReadStream()  emits a event --> 'data'
+    // to execute an event --> on("name of the event", cb)
+    // console.log(read);
+
+    // read.on("data", (chunk)=>{
+    //     console.log(chunk);
+        
+    // })
+//! default chunk size is 64kb
+//? RAM = 8GB, free = 3.5GB, maximum buffer size ==> formula (OS)
+    
+
+//! example for Writable Stream
+// let result = fs.createWriteStream('./demo.txt');
+
+// result.write('data to be written', () =>{
+//     console.log('file written');
+    
+// })
+
+
+//! ========================================== Important! ============================================================
+//! Example of Duplex Stream 
+
+let read = fs.createReadStream('./index.html', 'utf-8') //source
+let write = fs.createWriteStream('./demo.txt'); // destination
+
+//! pipe() ==> source.pipe(destination) : pipe() connects source to destination 
+// read.pipe(write);
+// console.log('file written');
+
+//! ==========================================================================================================
+
+//~ 
+
+
 
 
