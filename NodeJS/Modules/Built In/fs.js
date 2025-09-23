@@ -418,7 +418,9 @@ console.log(data); */
         
     // })
 //! default chunk size is 64kb
-//? RAM = 8GB, free = 3.5GB, maximum buffer size ==> formula (OS)
+//? RAM = 8GB, free = 3.5GB, maximum buffer size ==> Free RAM / Number of parallel buffers (OS)
+//? NodeJs ahrd limit for a single buffer = 2GB
+//? practicle safe chunk size = 64kb - 16MB
     
 
 //! example for Writable Stream
