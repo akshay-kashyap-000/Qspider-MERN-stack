@@ -15,10 +15,11 @@
 //? this callback function accepts two parameters --> req and res (object)
 //# 3) assign a port number using listen() ==> using this pass portNumber and one callback function(not mendatory)
 
+import fs from 'fs'
 import http from 'http';
 // console.log(http);
 
-let server = http.createServer((req, res)=>{
+// let server = http.createServer((req, res)=>{
     // // res.end('message from server !!!!') 
     // // console.log(req);
    // // console.log(req.headers);
@@ -38,18 +39,30 @@ let server = http.createServer((req, res)=>{
     // res.write('third statement') //~ this will crash server
 
     //~ ==========================================
-    res.writeHead(200,{'Content-Type': 'text/plan'})
-    res.end('hello from server')
+    // res.writeHead(200,{'Content-Type': 'text/plain'})
+    // res.end('hello from server')
 
-})
+    //~==================== Sending html file =========================
+    // res.writeHead(201, {'Content-Type':'text/html'});
+    // res.writeHead(200, "msg", {"Content-Type":'text/html'})
+    // let payload = fs.createReadStream('./about.html','utf-8')
+    // payload.pipe(res); //! pipe() internally call the end()/ req-res cycle is ended
 
 
-server.listen(9000, ()=>{
-    console.log('server is listening on port 9000');
-    console.log("second line");
-    
-    
-})
+    //~ ======================= Sending CSS file =========================
+    // res.writeHead(200, {"Content-Type":"text/css"})
+    // let payload = fs.createReadStream('./style.css', 'utf-8')
+    // payload.pipe(res)
+
+    //~ ======================= Sending json file ========================
+    // res.writeHead(200, {'Content-Type':'application/json'})
+    // fs.createReadStream('./data.json','utf-8').pipe(res)
+
+// });
+// server.listen(9000, ()=>{
+//     console.log('server is listening on port 9000');
+//     console.log("second line");
+// })
 
 //$ to close the server, press "ctrl + c" on terminal
 //$ after every modification , restart the server
@@ -63,6 +76,39 @@ server.listen(9000, ()=>{
 //? (success)      -->  2XX (201, 202, 204)
 //? (redirection)  --> 3XX (300, 301, etc...)
 //? (client error) --> 4XX (400, 401, 404)
-//? (server error) --> 5XX (5000, 501, etc...)
+//? (server error) --> 5XX (500, 501, etc...)
 
-//# Content-Type
+
+//# Content-type --> defines what content is being sent to the client
+//$ for string messages ==> "text/plain"
+//$ for html files ==> "text/html"
+//$ for css files ==> "text/css"
+//$ for json files ==> "application/json" 
+
+//! utf-8 ==> Unicode Transformation Format, it defines the encoding value which specifies the number of bits the conversion is going to take (8 bit)
+//$ encoding >> utf-8 >> 8 bits of 
+
+//# Routing ==> handling user's multiple request
+// endpoints ==> '/about', '/learn'
+
+let server = http.createServer((req, res)=>{
+    let endpoint = req.url;
+    if(endpoint === '/about') res.end('this about page')
+        else{
+            res.end('something else')
+        }
+
+})
+
+server.listen(9000,(err)=>{
+    if(err) console.log(err);
+    console.log('running');
+    
+    
+})
+
+
+
+
+
+
